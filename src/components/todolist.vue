@@ -1,16 +1,11 @@
 <template>
   <div class="todo-container">
-    <!-- Header for the Task List -->
     <h2 class="my-4">Task List</h2>
-
-    <!-- Alert Section to Display Messages -->
     <div class="alert-section">
       <div v-if="alert.message" :class="`alert alert-${alert.type}`" role="alert">
         {{ alert.message }}
       </div>
     </div>
-
-    <!-- Input Section for Adding New Tasks -->
     <div class="input-section">
       <input
         v-model="newTask.text"
@@ -20,8 +15,6 @@
       />
       <button @click="addTask" class="add-task-button">Add Task</button>
     </div>
-
-    <!-- Table to Display Tasks -->
     <table class="task-table">
       <thead>
         <tr>
@@ -31,21 +24,17 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Loop Through Tasks and Display Them -->
         <tr v-for="(task, index) in tasks" :key="index">
           <td class="align-middle">
-            <!-- Editable Input for Task -->
             <input
               v-if="task.editing"
               v-model="task.text"
               @keyup.enter="saveTask(task)"
               class="edit-input"
             />
-            <!-- Display Task Text if Not Editing -->
             <span v-else>{{ task.text }}</span>
           </td>
           <td class="align-middle">
-            <!-- Dropdown to Select Task Priority -->
             <select v-model="task.priority" class="priority-select">
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -53,7 +42,6 @@
             </select>
           </td>
           <td class="align-middle">
-            <!-- Buttons for Saving, Editing, and Deleting Tasks -->
             <button v-if="task.editing" @click="saveTask(task)" class="save-button">Save</button>
             <button v-else @click="editTask(task)" class="edit-button">Edit</button>
             <button @click="removeTask(index)" class="delete-button">Delete</button>
@@ -61,8 +49,6 @@
         </tr>
       </tbody>
     </table>
-
-    <!-- Badges to Display Counters for Added, Done, and Deleted Tasks -->
     <div class="badge-section">
       <span class="badge added-badge">Added: {{ counters.added }}</span>
       <span class="badge done-badge">Done: {{ counters.done }}</span>
@@ -75,38 +61,35 @@
 export default {
   data() {
     return {
-      newTask: { text: '', priority: 'low' }, // New task object
-      tasks: [], // Array to hold tasks
+      newTask: { text: '', priority: 'low' },
+      tasks: [],
       alert: {
-        message: '', // Alert message
-        type: '' // Alert type (primary, success, warning)
+        message: '',
+        type: ''
       },
       counters: {
-        added: 0, // Counter for added tasks
-        done: 0, // Counter for completed tasks
-        deleted: 0 // Counter for deleted tasks
+        added: 0,
+        done: 0,
+        deleted: 0
       }
     };
   },
   methods: {
-    // Method to add a new task
     addTask() {
       if (this.newTask.text.trim() !== '') {
         this.tasks.push({ ...this.newTask, editing: false });
         this.alert.message = `Task "${this.newTask.text}" added!`;
         this.alert.type = 'primary';
         this.counters.added++;
-        this.newTask.text = ''; // Clear the input
+        this.newTask.text = '';
         setTimeout(() => {
           this.alert.message = '';
         }, 3000);
       }
     },
-    // Method to enable task editing
     editTask(task) {
       task.editing = true;
     },
-    // Method to save the edited task
     saveTask(task) {
       task.editing = false;
       this.alert.message = `Task "${task.text}" updated!`;
@@ -115,7 +98,6 @@ export default {
         this.alert.message = '';
       }, 3000);
     },
-    // Method to remove a task
     removeTask(index) {
       this.alert.message = `Task "${this.tasks[index].text}" removed!`;
       this.alert.type = 'warning';
@@ -123,14 +105,13 @@ export default {
       setTimeout(() => {
         this.alert.message = '';
       }, 3000);
-      this.tasks.splice(index, 1); // Remove the task from the array
+      this.tasks.splice(index, 1);
     },
   },
 };
 </script>
 
 <style scoped>
-/* Container for the to-do list */
 .todo-container {
   max-width: 800px;
   margin: 0 auto;
@@ -250,5 +231,57 @@ export default {
   background-color: #dc3545;
   color: white;
 }
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .todo-container {
+    padding: 15px;
+  }
+
+  .task-table th, .task-table td {
+    padding: 8px;
+  }
+
+  .add-task-button, .save-button, .edit-button, .delete-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .task-input, .priority-select, .edit-input {
+    padding: 8px;
+  }
+
+  .badge {
+    padding: 8px 16px;
+    margin: 5px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .todo-container {
+    padding: 10px;
+  }
+
+  .task-table th, .task-table td {
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  .add-task-button, .save-button, .edit-button, .delete-button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .task-input, .priority-select, .edit-input {
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  .badge {
+    padding: 5px 10px;
+    margin: 3px;
+    font-size: 12px;
+  }
+}
 </style>
-h
