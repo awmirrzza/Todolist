@@ -1,6 +1,16 @@
 # Todolist
+This project is a responsive to-do list application built with Vue.js. The core functionality is encapsulated within the TodoList.vue component, which is integrated into the main application through the App.vue component.
+Key Features
 
-This template should help get you started developing with Vue 3 in Vite.
+    Task Management: Add, edit, and delete tasks with priority levels (low, medium, high).
+    Real-Time Feedback: Alert messages for task actions.
+    Counters: Track added, done, and deleted tasks with badges.
+    Responsive Design: Optimized for mobile, tablet, and desktop screens.
+
+File Structure
+
+    src/components/TodoList.vue: Handles task management, alert messages, and counters.
+    src/App.vue: Integrates TodoList.vue and provides global styles.
 
 ## Recommended IDE Setup
 
